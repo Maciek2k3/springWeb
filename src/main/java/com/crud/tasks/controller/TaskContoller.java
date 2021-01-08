@@ -27,10 +27,10 @@ public class TaskContoller {
         return "Get a specific task with id=" + id;
     }
 
-  /*  @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(@RequestParam Long taskId) {
+    /*  @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
+      public void deleteTask(@RequestParam Long taskId) {
 
-    }*/
+      }*/
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
     public String deleteTask(
             @RequestParam("id") long id) {
