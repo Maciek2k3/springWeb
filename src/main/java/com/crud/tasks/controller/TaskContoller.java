@@ -6,14 +6,18 @@ import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/v1/task")
+@CrossOrigin(origins = "*")
 public class TaskContoller {
 
     private DbService service;
@@ -54,9 +58,9 @@ public class TaskContoller {
 
       }*/
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public void deleteTask(@RequestParam long id) {
-        System.out.println("Deleted");
-        service.deleteById(id);
+    public void deleteTask(@RequestParam long taskId) {
+       // System.out.println("Deleted");
+        service.deleteById(taskId);
     }
 
     // public void delete(@RequestParam Long id) {
@@ -74,6 +78,11 @@ public class TaskContoller {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
 
+    }
+    @EventListener(ApplicationReadyEvent.class)
+    public void fillDb(){
+        service.saveTask(new Task(2L,"No name","No name "));
+        service.saveTask(new Task(3L,"No name","No name "));
     }
 }
 
