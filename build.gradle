@@ -55,6 +55,19 @@ dependencies {
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
+	//https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	//compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.1'
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations
+	//compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.12.1'
+
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+	//compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.1'
+
 }
 
 test {
