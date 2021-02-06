@@ -7,7 +7,7 @@ import com.crud.tasks.domain.TrelloCardDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,12 +41,19 @@ public class TrelloController {
     public List<TrelloBoardDto> getTrelloFilterBoards() {
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
-        trelloBoards.stream().filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getId())).
-                filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getName())).
-                filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getName().contains("kodilla"))).
-                collect(Collectors.toList());
+     //   trelloBoards.stream().filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getId())).
+       //         filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getName())).
+         //       filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getName().contains("kodilla"))).
+           //     collect(Collectors.toList());
 
-        return trelloBoards;
+        //return trelloBoards;
+
+      trelloBoards .stream()
+                .filter(p -> Objects.nonNull(p.getId()) && Objects.nonNull(p.getName()))
+                .filter(p -> p.getName().contains("Kodilla"))
+                .collect(Collectors.toList());
+
+      return trelloBoards;
     }
     @PostMapping("createTrelloCard")
     public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
