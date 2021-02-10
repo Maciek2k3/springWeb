@@ -2,8 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.4.1'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
 	id 'java'
-
-	//id 'war'
+//	id 'jar'
 }
 
 group = 'com.crud'
@@ -26,7 +25,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	runtimeOnly 'mysql:mysql-connector-java'
+	//runtimeOnly 'mysql:mysql-connector-java'
 	//runtimeOnly 'org.postgresql: postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	// https://mvnrepository.com/artifact/org.springframework/spring-web
@@ -55,9 +54,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.h2database/h2
 	testCompile group: 'com.h2database', name: 'h2', version: '1.4.200'
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
-	//compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.1.4'
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
-	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
+	//compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.23'
 	//https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 
 	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
