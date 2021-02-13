@@ -42,7 +42,7 @@ public class SimpleEmailService {
 
     }
 
-    Mail mail = Mail.builder()
+    Mail mailBuild = Mail.builder()
             .mailTo("Test@gmail.com")
             .toCc("mail@gmail.com")
             .subject(" ALL Field Test")
