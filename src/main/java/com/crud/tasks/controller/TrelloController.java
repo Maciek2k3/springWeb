@@ -4,7 +4,9 @@ import com.crud.tasks.client.TrelloClient;
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.service.TrelloService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -17,30 +19,17 @@ import java.util.stream.Collectors;
 public class TrelloController {
     private final TrelloClient trelloClient;
 
-    @GetMapping("/getTrelloBoards")
-    public void getTrelloBoards() {
+    @Autowired
+    private final TrelloService trelloService;
 
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
-
-        trelloBoards.forEach(trelloBoardDto -> {
-            System.out.println(trelloBoardDto.getId() + " - " + trelloBoardDto.getName());
-            System.out.println("This board contains lists: ");
-            trelloBoardDto.getLists().forEach(trelloList -> {
-                System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed());
-            });
-        });
-
-
-        trelloBoards.forEach(trelloBoardDto -> {
-            System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
-
-
-        });
+    @GetMapping("getTrelloBoards")
+    public List<TrelloBoardDto> getTrelloBoards() {
+return trelloService.fetchTrelloBoards();
     }
 
-    @GetMapping("/getTrelloFillterBoards")
-    public List<TrelloBoardDto> getTrelloFilterBoards() {
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
+   // @GetMapping("getTrelloFillterBoards")
+    //public List<TrelloBoardDto> getTrelloFilterBoards() {
+     //   List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
      //   trelloBoards.stream().filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getId())).
        //         filter(trelloBoardDto -> trelloBoards.contains(trelloBoardDto.getName())).
@@ -49,14 +38,14 @@ public class TrelloController {
 
         //return trelloBoards;
 
-      trelloBoards .stream()
-                .filter(p -> Objects.nonNull(p.getId()) && Objects.nonNull(p.getName()))
-                .filter(p -> p.getName().contains("Kodilla"))
-                .collect(Collectors.toList());
+      //trelloBoards .stream()
+        //        .filter(p -> Objects.nonNull(p.getId()) && Objects.nonNull(p.getName()))
+          //      .filter(p -> p.getName().contains("Kodilla"))
+            //    .collect(Collectors.toList());
 
-      return trelloBoards;
-    }
-    @PostMapping("/createTrelloCard")
+      //return trelloBoards;
+    //}
+    @PostMapping("createTrelloCard")
     public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
         return trelloClient.createNewCard(trelloCardDto);
     }
