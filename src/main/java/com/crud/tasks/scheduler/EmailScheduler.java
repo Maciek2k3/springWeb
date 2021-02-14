@@ -23,8 +23,9 @@ public class EmailScheduler {
         String taskOrTasks;
         if (size != 1) {
             taskOrTasks = "task";
-        } else
+        } else {
             taskOrTasks = "tasks";
+        }
         simpleEmailService.send(
                 new Mail(
                         adminConfig.getAdminMail(),
