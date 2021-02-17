@@ -17,9 +17,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 public class TrelloController {
-    private final TrelloClient trelloClient;
 
-    @Autowired
+    //@Autowired
     private final TrelloService trelloService;
 
     @GetMapping("getTrelloBoards")
@@ -47,6 +46,6 @@ return trelloService.fetchTrelloBoards();
     //}
     @PostMapping("createTrelloCard")
     public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
-        return trelloClient.createNewCard(trelloCardDto);
+        return trelloService.createTrelloCard(trelloCardDto);
     }
 }
