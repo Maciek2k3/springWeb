@@ -9,7 +9,11 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskMapperTest {
@@ -40,6 +44,28 @@ public class TaskMapperTest {
         assertEquals(mappedTaskDto.getId(),task.getId());
         assertEquals(mappedTaskDto.getTitle(),task.getTitle());
         assertEquals(mappedTaskDto.getContent(),task.getContent());
+    }
+    @Test
+    public void mapTaskDtoList(){
+        //Given
+        TaskDto taskDto = new TaskDto(1L, "task1", "content1");
+        List<TaskDto> taskDtoList= Arrays.asList(taskDto);
+
+        Task task = new Task(1L, "task1", "content1");
+        List<Task> taskList=Arrays.asList(task);
+        //When
+        List<TaskDto> taskDtoList1=taskMapper.mapToTaskDtoList(taskList);
+
+        //Then
+        assertNotNull(taskDtoList1);
+        assertEquals(1,taskDtoList1.size());
+
+        taskDtoList1.forEach(t->{
+            assertEquals(taskDto.getId(),t.getId());
+            assertEquals(taskDto.getTitle(),t.getTitle());
+            assertEquals(taskDto.getContent(),t.getContent());
+        });
+
     }
 }
 
