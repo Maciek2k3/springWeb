@@ -38,7 +38,7 @@ public class TrelloTaskController {
     @MockBean
     private DbService dbService;
 
-    @MockBean
+    @Autowired
     private TaskMapper taskMapper;
 
     @Test
