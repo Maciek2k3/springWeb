@@ -61,9 +61,8 @@ public class TrelloTaskControllerTest {
         //Given
         Task task = new Task(1L, "test", "content");
         List<Task> taskList = Arrays.asList(task);
-
+        TaskDto taskDto = new TaskDto(1L, "title", "content");
         when(dbService.getAllTasks()).thenReturn(taskList);
-
         //When & Then
         mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
