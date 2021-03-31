@@ -35,7 +35,6 @@ public class TrelloClient {
     private RestTemplate restTemplate;
 
     public List<TrelloBoardDto> getTrelloBoards() {
-
         URI url = getTrelloBoardsUri();
 
         try {

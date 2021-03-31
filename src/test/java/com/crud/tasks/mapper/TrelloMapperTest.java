@@ -13,81 +13,93 @@ import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 
-@RunWith(MockitoJUnitRunner.class)
 public class TrelloMapperTest {
-    @InjectMocks
-    private TrelloMapper trelloMapper;
+
+    private TrelloMapper trelloMapper = new TrelloMapper();
 
     @Test
-    public void mapToTrelloBoard(){
+    public void mapToTrelloBoard() {
         //Given
-        TrelloListDto trelloListDto=new TrelloListDto("1","name1",true);
-        List<TrelloListDto> trelloListDtos= Arrays.asList(trelloListDto);
-
+        TrelloListDto trelloListDto = new TrelloListDto("1", "name1", true);
+        List<TrelloListDto> trelloListDtos = Arrays.asList(trelloListDto);
         TrelloBoardDto trelloBoardDto = new TrelloBoardDto("testBoard", "1", trelloListDtos);
         List<TrelloBoardDto> boardDto = Arrays.asList(trelloBoardDto);
+
         //When
-        List<TrelloBoard> boards=trelloMapper.mapToBoards(boardDto);
+        List<TrelloBoard> boards = trelloMapper.mapToBoards(boardDto);
         //Then
-        Assert.assertEquals(boardDto.get(0).getId(), boards.get(0).getId());
-        Assert.assertEquals(boardDto.get(0).getName(), boards.get(0).getName());
-        Assert.assertEquals(boardDto.get(0).getLists().get(0).getId(),
-                boards.get(0).getLists().get(0).getId());
-        Assert.assertEquals(boardDto.get(0).getLists().get(0).getName(),
-                boards.get(0).getLists().get(0).getName());
-        Assert.assertEquals(boardDto.get(0).getLists().get(0).isClosed(),
-                boards.get(0).getLists().get(0).isClosed());
+        final TrelloBoardDto resulttrelloBoardDto = boardDto.get(0);
+        final TrelloBoard boardResult = boards.get(0);
+        Assert.assertEquals(resulttrelloBoardDto.getId(), boardResult.getId());
+        Assert.assertEquals(resulttrelloBoardDto.getName(), boardResult.getName());
+        final TrelloListDto firstElementTrelloListDto = resulttrelloBoardDto.getLists().get(0);
+        final TrelloList boardResultList = boards.get(0).getLists().get(0);
+        Assert.assertEquals(firstElementTrelloListDto.getId(),
+                boardResultList.getId());
+        Assert.assertEquals(firstElementTrelloListDto.getName(),
+                boardResultList.getName());
+        Assert.assertEquals(firstElementTrelloListDto.isClosed(),
+                boardResultList.isClosed());
     }
+
     @Test
-    public void mapToTrelloBoardDto(){
+    public void mapToTrelloBoardDto() {
         //Given
-        TrelloList trelloList=new TrelloList("1","name1",true);
-        List<TrelloList> lists= Arrays.asList(trelloList);
+        TrelloList trelloList = new TrelloList("1", "name1", true);
+        List<TrelloList> lists = Arrays.asList(trelloList);
 
         TrelloBoard trelloBoard = new TrelloBoard("testBoard", "1", lists);
         List<TrelloBoard> board = Arrays.asList(trelloBoard);
 
         //When
-        List<TrelloBoardDto> mappedList=trelloMapper.mapToBoardsDto(board);
+        List<TrelloBoardDto> mappedList = trelloMapper.mapToBoardsDto(board);
         //Then
-        Assert.assertEquals(board.get(0).getId(), mappedList.get(0).getId());
-        Assert.assertEquals(board.get(0).getName(), mappedList.get(0).getName());
-        Assert.assertEquals(board.get(0).getLists().get(0).getId(),
-                mappedList.get(0).getLists().get(0).getId());
-        Assert.assertEquals(board.get(0).getLists().get(0).getName(),
-                mappedList.get(0).getLists().get(0).getName());
-        Assert.assertEquals(board.get(0).getLists().get(0).isClosed(),
-                mappedList.get(0).getLists().get(0).isClosed());
+        final TrelloBoard resultBoard = board.get(0);
+        final TrelloBoardDto trelloBoardDto = mappedList.get(0);
+        Assert.assertEquals(resultBoard.getId(), trelloBoardDto.getId());
+        Assert.assertEquals(resultBoard.getName(), trelloBoardDto.getName());
+        final TrelloList trelloResultList = board.get(0).getLists().get(0);
+        final TrelloListDto trelloListDto = mappedList.get(0).getLists().get(0);
+        Assert.assertEquals(trelloResultList.getId(), trelloListDto.getId());
+        Assert.assertEquals(trelloResultList.getName(), trelloListDto.getName());
+        Assert.assertEquals(trelloResultList.isClosed(), trelloListDto.isClosed());
     }
+
     @Test
-    public void mapToList(){
+    public void mapToList() {
         //Given
-        TrelloListDto trelloListDto=new TrelloListDto("1","name1",true);
-        List<TrelloListDto> trelloListDtos=Arrays.asList(trelloListDto);
+        TrelloListDto trelloListDto = new TrelloListDto("1", "name1", true);
+        List<TrelloListDto> trelloListDtos = Arrays.asList(trelloListDto);
         //When
-        List<TrelloList> mapList=trelloMapper.mapToList(trelloListDtos);
+        List<TrelloList> mapList = trelloMapper.mapToList(trelloListDtos);
         //Then
-        Assert.assertEquals(mapList.get(0).getId(), trelloListDtos.get(0).getId());
-        Assert.assertEquals(mapList.get(0).getName(), trelloListDtos.get(0).getName());
-        Assert.assertEquals(mapList.get(0).isClosed(), trelloListDtos.get(0).isClosed());
+        final TrelloList trelloList=mapList.get(0);
+        final TrelloListDto trelloListResult=trelloListDtos.get(0);
+        Assert.assertEquals(trelloList.getId(), trelloListResult.getId());
+        Assert.assertEquals(trelloList.getName(), trelloListResult.getName());
+        Assert.assertEquals(trelloList.isClosed(), trelloListResult.isClosed());
     }
+
     @Test
-    public void mapToListDto(){
+    public void mapToListDto() {
         //Given
-        TrelloList trelloList=new TrelloList("1","name1",true);
-        List<TrelloList> trelloLists=Arrays.asList(trelloList);
+        TrelloList trelloList = new TrelloList("1", "name1", true);
+        List<TrelloList> trelloLists = Arrays.asList(trelloList);
         //When
-        List<TrelloListDto> mapListDto=trelloMapper.mapToListDto(trelloLists);
+        List<TrelloListDto> mapListDto = trelloMapper.mapToListDto(trelloLists);
         //Then
-        Assert.assertEquals(trelloLists.get(0).getId(), mapListDto.get(0).getId());
-        Assert.assertEquals(trelloLists.get(0).getName(), mapListDto.get(0).getName());
-        Assert.assertEquals(trelloLists.get(0).isClosed(), mapListDto.get(0).isClosed());
+        final TrelloList trelloListResult=trelloLists.get(0);
+        final TrelloListDto trelloListDto=mapListDto.get(0);
+        Assert.assertEquals(trelloListResult.getId(), trelloListDto.getId());
+        Assert.assertEquals(trelloListResult.getName(), trelloListDto.getName());
+        Assert.assertEquals(trelloListResult.isClosed(), trelloListDto.isClosed());
 
     }
+
     @Test
     public void mapToCard() {
         //Given
-        TrelloCardDto trelloCardDto = new TrelloCardDto("card1","des1","position1","1");
+        TrelloCardDto trelloCardDto = new TrelloCardDto("card1", "des1", "position1", "1");
 
         //When
         TrelloCard mappCard = trelloMapper.mapToCard(trelloCardDto);
@@ -102,7 +114,7 @@ public class TrelloMapperTest {
     @Test
     public void mapToCardDto() {
         //Given
-        TrelloCard trelloCard = new TrelloCard("card1","des1","position1","1");
+        TrelloCard trelloCard = new TrelloCard("card1", "des1", "position1", "1");
 
         //When
         TrelloCardDto mappedCard = trelloMapper.mapToCardDto(trelloCard);

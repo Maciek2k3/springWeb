@@ -2,6 +2,7 @@ package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.facde.TrelloFacade;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import com.google.common.base.Utf8;
@@ -17,12 +18,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,21 +34,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringJUnitWebConfig
 @WebMvcTest(TaskContoller.class)
-public class TrelloTaskController {
+public class TrelloTaskControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
     private DbService dbService;
 
-    @Autowired
+    @MockBean
     private TaskMapper taskMapper;
 
     @Test
     public void shouldFetchEmptyTaskList() throws Exception {
         //Given
-        List<TaskDto> list = new ArrayList<>();
-        when(taskMapper.mapToTaskDtoList(new ArrayList<>())).thenReturn(list);
+        List<Task> taskList = new ArrayList<>();
+        given(dbService.getAllTasks()).willReturn(taskList);
         //When & Then
         mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
@@ -55,15 +59,17 @@ public class TrelloTaskController {
     @Test
     public void shouldFetchTasksList() throws Exception {
         //Given
-        List<TaskDto> list = new ArrayList<>();
-        list.add(new TaskDto(1L, "test", "content"));
-        when(taskMapper.mapToTaskDtoList(anyList())).thenReturn(list);
+        Task task = new Task(1L, "test", "content");
+        List<Task> taskList = Arrays.asList(task);
+
+        when(dbService.getAllTasks()).thenReturn(taskList);
+
         //When & Then
         mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].id", is(1)))
-                .andExpect(jsonPath("$[0].title", is("test")))
+                .andExpect(jsonPath("$[0].title", is("title")))
                 .andExpect(jsonPath("$[0].content", is("content")));
 
     }
@@ -110,6 +116,7 @@ public class TrelloTaskController {
                 .param("taskId", "1"))
                 .andExpect(status().is(200));
     }
+
     @Test
     public void shouldUpdateTask() throws Exception {
         //Given
@@ -132,12 +139,15 @@ public class TrelloTaskController {
                 .andExpect(jsonPath("$[0].title", is("title")))
                 .andExpect(jsonPath("$[0].content", is("content")));
     }
+
     @Test
     public void shouldAddTask() throws Exception {
         TaskDto taskDto = new TaskDto(1L, "title", "content");
         Task task = new Task(1L, "title", "content");
 
-        when(taskMapper.mapToTask(any(TaskDto.class))).thenReturn(task);
+        //  when(taskMapper.mapToTask(any(TaskDto.class))).thenReturn(task);
+
+        when(dbService.saveTask(task)).thenReturn(task);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
