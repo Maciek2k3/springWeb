@@ -62,7 +62,9 @@ public class TrelloTaskControllerTest {
         Task task = new Task(1L, "test", "content");
         List<Task> taskList = Arrays.asList(task);
         TaskDto taskDto = new TaskDto(1L, "title", "content");
+        List<TaskDto> taskDtoList = Arrays.asList(taskDto);
         when(dbService.getAllTasks()).thenReturn(taskList);
+        when(taskMapper.mapToTaskDtoList(taskList)).thenReturn(taskDtoList);
         //When & Then
         mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
@@ -76,8 +78,10 @@ public class TrelloTaskControllerTest {
     @Test
     public void shouldFetchTask() throws Exception {
         //Given
-        TaskDto taskDto = new TaskDto(1L, "title", "content");
-        Task task = new Task(1L, "title", "content");
+        Task task = new Task(1L, "test", "content");
+
+        TaskDto taskDto = new TaskDto(1L, "test", "content");
+
         when(taskMapper.mapToTaskDto(any(Task.class))).thenReturn(taskDto);
         when(dbService.getTask(1L)).thenReturn(Optional.of(task));
         //When & Then
