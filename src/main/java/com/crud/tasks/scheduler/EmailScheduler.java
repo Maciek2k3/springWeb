@@ -1,8 +1,11 @@
 package com.crud.tasks.scheduler;
 
 import com.crud.tasks.config.AdminConfig;
+import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.Mail;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.repository.TaskRepository;
+import com.crud.tasks.service.EmailTemplateSelector;
 import com.crud.tasks.service.SimpleEmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,7 +19,7 @@ public class EmailScheduler {
     private final AdminConfig adminConfig;
     private static final String SUBJECT = "Tasks: Once a day email";
 
-
+    /*
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail() {
         long size = taskRepository.count();
@@ -30,11 +33,10 @@ public class EmailScheduler {
                 new Mail(
                         adminConfig.getAdminMail(),
                         SUBJECT,
-                        "Currently in database you got: " + size + taskOrTasks,
-                        null
-                )
-        );
-    }
+                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account",""
+                ), EmailTemplateSelector.TRELLO_CARD_EMAIL));
+
+    }*/
 
 }
 
