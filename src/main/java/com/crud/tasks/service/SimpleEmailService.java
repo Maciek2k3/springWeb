@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.thymeleaf.context.Context;
 
 import javax.validation.constraints.Email;
 import java.util.Optional;
@@ -57,6 +58,7 @@ public class SimpleEmailService {
         return mailMessage;
 
     }
+
 
 
   /* Mail mailBuild = Mail.builder()
