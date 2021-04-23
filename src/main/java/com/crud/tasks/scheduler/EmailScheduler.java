@@ -19,25 +19,19 @@ public class EmailScheduler {
     private final AdminConfig adminConfig;
     private static final String SUBJECT = "Tasks: Once a day email";
 
-    /*
-    @Scheduled(cron = "0 0 10 * * *")
+
+    @Scheduled(cron = "0 43 10 ? * *")
     public void sendInformationEmail() {
         long size = taskRepository.count();
         String taskOrTasks;
-        if (size != 1) {
+        if (size == 1) {
             taskOrTasks = "task";
         } else {
             taskOrTasks = "tasks";
+            simpleEmailService.send(new Mail(adminConfig.getAdminMail(), "", SUBJECT,
+                    "Currently in database you've got: " + size + taskOrTasks), EmailTemplateSelector.SCHEDULED_EMAIL);
         }
-        simpleEmailService.send(
-                new Mail(
-                        adminConfig.getAdminMail(),
-                        SUBJECT,
-                        "New card: " + trelloCardDto.getName() + " has been created on your Trello account",""
-                ), EmailTemplateSelector.TRELLO_CARD_EMAIL));
-
-    }*/
-
+    }
 }
 
 

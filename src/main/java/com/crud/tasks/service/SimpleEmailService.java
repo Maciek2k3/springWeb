@@ -47,6 +47,14 @@ public class SimpleEmailService {
             messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
         };
     }
+    private String getMailHtmlTextForTemplateSelector(String message, EmailTemplateSelector template) {
+        if (template == EmailTemplateSelector.SCHEDULED_EMAIL) {
+            return mailCreatorService.buildTrelloCardEmailScheduler(message);
+        } else if (template == EmailTemplateSelector.TRELLO_CARD_EMAIL) {
+            return mailCreatorService.buildTrelloCardEmail(message);
+        }
+        return "";
+    }
 
 
     private SimpleMailMessage createMailMessage(final Mail mail) {
