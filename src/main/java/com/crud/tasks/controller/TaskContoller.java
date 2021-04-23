@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1")
 @CrossOrigin(origins = "*")
 public class TaskContoller {
 
@@ -32,7 +34,7 @@ public class TaskContoller {
     public TaskContoller() {
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks")
     public List<TaskDto> getTasks() {
         List<Task> tasks = service.getAllTasks();
         return taskMapper.mapToTaskDtoList(tasks);
@@ -45,7 +47,7 @@ public class TaskContoller {
 
     }*/
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTask")
+    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{taskId}")
     @ResponseBody
     public TaskDto getTask(@RequestParam Long taskId) throws TaskNotFoundException {
         return taskMapper.mapToTaskDto(
@@ -57,7 +59,7 @@ public class TaskContoller {
       public void deleteTask(@RequestParam Long taskId) {
 
       }*/
-    @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
+    @RequestMapping(method = RequestMethod.DELETE, value = "/tasks/{taskId}")
     public void deleteTask(@RequestParam long taskId) {
        // System.out.println("Deleted");
         service.deleteById(taskId);
@@ -66,14 +68,14 @@ public class TaskContoller {
     // public void delete(@RequestParam Long id) {
     //   videoCasseteManager.deleteById(id);
 
-    @RequestMapping(method = RequestMethod.PUT, value = "updateTask")
+    @RequestMapping(method = RequestMethod.PUT, value = "/tasks")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         Task savedTask = service.saveTask(task);
         return taskMapper.mapToTaskDto(savedTask);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask")
+    @RequestMapping(method = RequestMethod.POST, value = "/tasks", consumes = APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
